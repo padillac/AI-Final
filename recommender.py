@@ -1,9 +1,14 @@
-import spotipy #library to interact with spotify API
-from spotipy.oauth2 import SpotifyClientCredentials
-
-import pickle #storing objects in files
+import sys
 import os.path
+import spotipy #library to interact with spotify API
+from spotipy.oauth2 import SpotifyClientCredentials #allows authorization to spotify API
+import pickle #storing objects in files
 from tqdm import tqdm #progress bars
+
+#Allow local files to be imported
+sys.path.insert(1, 'helpers/') 
+from HiddenPrints import HiddenPrints #stifle built-in print statements
+
 
 #global variables
 CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
@@ -27,35 +32,43 @@ if os.path.isfile(SONG_DATA_CACHE_FILE):
 else:
     print("no cache file found. loading song data from spotify")
 
-    categories = []
+    categories = ['US']
     categories += sp.categories(country="US", limit=50)['categories']['items']
-    #categories += sp.categories(country="CA", limit=50)['categories']['items']
-    #categories += sp.categories(country="GB", limit=50)['categories']['items']
-    #categories += sp.categories(country="FR", limit=50)['categories']['items']
-    #categories += sp.categories(country="BR", limit=50)['categories']['items']
-    #categories += sp.categories(country="MX", limit=50)['categories']['items']
+    categories += ['CA']
+    categories += sp.categories(country="CA", limit=50)['categories']['items']
+    categories += ['GB']
+    categories += sp.categories(country="GB", limit=50)['categories']['items']
+    categories += ['FR']
+    categories += sp.categories(country="FR", limit=50)['categories']['items']
+    categories += ['BR']
+    categories += sp.categories(country="BR", limit=50)['categories']['items']
+    categories += ['MX']
+    categories += sp.categories(country="MX", limit=50)['categories']['items']
 
-    print("found {} categories".format(len(categories)))
+    print("found {} categories across 6 countries".format(len(categories)))
 
 
+    print("gathering playlists from categories")
     playlists = []
-    for i in tqdm(categories):
-        print(i['id'])
-        new_playlists = sp.category_playlists(i['id'], country='US', limit=50)
-        print(type(new_playlists))
-        if new_playlists is None:
-            print("query failed")
-        else:
-            playlists += new_playlists['playlists']['items']
+    with HiddenPrints():
+        for i in tqdm(categories):
+            if type(i) == str:
+                countrycode = i
+                continue
+            #print(i['id'])
+            new_playlists = sp.category_playlists(i['id'], country=countrycode, limit=50)
+            if new_playlists is not None:
+                playlists += new_playlists['playlists']['items']
 
 
     print("gathered {} playlists across all categories".format(len(playlists)))
 
 
     tracks = []
-    for playlist in tqdm(playlists):
-        #print(playlist['uri'],  playlist['name'])
-        tracks += sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
+    print("gathering tracks from playlists")
+    with HiddenPrints():
+        for playlist in tqdm(playlists):
+            tracks += sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
 
 
     print("gathered {} tracks across all playlists".format(len(tracks)))
@@ -68,7 +81,7 @@ else:
 
 
 
-print("song data loaded, {} total tracks".format(len(tracks)))
+print("song data successfully loaded, {} total tracks".format(len(tracks)))
 
 for track in tracks:
     print(track['uri'], track['name'])
