@@ -3,7 +3,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 import pickle #storing objects in files
 import os.path
-import tqdm #progress bars
+from tqdm import tqdm #progress bars
 
 #global variables
 CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
@@ -39,7 +39,7 @@ else:
 
 
     playlists = []
-    for i in categories:
+    for i in tqdm(categories):
         print(i['id'])
         new_playlists = sp.category_playlists(i['id'], country='US', limit=50)
         print(type(new_playlists))
@@ -53,7 +53,7 @@ else:
 
 
     tracks = []
-    for playlist in playlists:
+    for playlist in tqdm(playlists):
         #print(playlist['uri'],  playlist['name'])
         tracks += sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
 
