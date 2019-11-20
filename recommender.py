@@ -6,20 +6,20 @@ import pickle #storing objects in files
 from tqdm import tqdm #progress bars
 
 #Allow local files to be imported
-sys.path.insert(1, 'helpers/') 
+sys.path.insert(1, 'helpers/')
 from HiddenPrints import HiddenPrints #stifle built-in print statements
 
 
 #global variables
-CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
-CLIENT_SECRET='759a026c098f40b98583e7c45013ca80'
+SPOTIFY_CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
+SPOTIFY_CLIENT_SECRET='759a026c098f40b98583e7c45013ca80'
 
 SONG_DATA_CACHE_FILE = 'song-data-cache'
 
 
 
 
-client_credentials_manager = SpotifyClientCredentials(CLIENT_ID, CLIENT_SECRET)
+client_credentials_manager = SpotifyClientCredentials(SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
