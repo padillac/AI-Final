@@ -13,6 +13,7 @@ SONG_DATA_CACHE_FILE = 'song-data-cache'
 
 
 
+
 client_credentials_manager = SpotifyClientCredentials(CLIENT_ID, CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
