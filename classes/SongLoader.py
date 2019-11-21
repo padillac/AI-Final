@@ -45,8 +45,8 @@ class SongLoader:
 
             print("gathering playlists from categories")
             playlists = []
-            with HiddenPrints():
-                for i in tqdm(categories):
+            for i in tqdm(categories):
+                with HiddenPrints():
                     if type(i) == str:
                         countrycode = i
                         continue
@@ -65,8 +65,8 @@ class SongLoader:
 
             tracks = []
             print("gathering tracks from playlists")
-            with HiddenPrints():
-                for playlist in tqdm(playlists):
+            for playlist in tqdm(playlists):
+                with HiddenPrints():
                     track_objects = self.sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
                     if track_objects is not None:
                         for track in track_objects:
@@ -83,7 +83,7 @@ class SongLoader:
                             trackData.pop('is_local', None)
                             trackData.pop('duration_ms', None)
 
-                            audioFeatures = self.sp.audio_features([trackData['id']])
+                            audioFeatures = self.sp.audio_features([trackData['id']])[0]
                             trackData['audio_features'] = audioFeatures
 
                             tracks.append(trackData)
