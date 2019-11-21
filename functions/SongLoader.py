@@ -30,7 +30,7 @@ class SongLoader:
             print("no cache file found. loading song data from spotify")
 
             categories = ['US']
-            categories += self.sp.categories(country="US", limit=1)['categories']['items']
+            categories += self.sp.categories(country="US", limit=50)['categories']['items']
             categories += ['CA']
             #categories += self.sp.categories(country="CA", limit=50)['categories']['items']
             categories += ['GB']
@@ -54,7 +54,7 @@ class SongLoader:
                     if i['id'] == 'regionalmexican':
                         continue
                     try:
-                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=1) #change this limit to 50
+                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=50) #change this limit to 50
                     except:
                         continue
                     if new_playlists is not None:
