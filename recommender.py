@@ -1,4 +1,5 @@
 import sys
+import time
 
 #Allow local files to be imported
 sys.path.insert(1, 'helpers/')
@@ -11,6 +12,24 @@ from tqdm import tqdm #progress bars
 
 
 
-loader = SongLoader()
-tracks = loader.loadSongs()
-print(tracks[0])
+
+def main():
+    t1 = time.time()
+    loader = SongLoader()
+    tracks = loader.loadSongs()
+    t2 = time.time()
+    print("----Tracks loaded. {}".format(t2-t1))
+
+
+    for track in tracks:
+        print(track)
+        time.sleep(2)
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    main()
