@@ -22,6 +22,10 @@ def main():
 
 
 
+
+    print("Keys:")
+    print(tracks[0].keys())
+    print("Full Object")
     print(tracks[0])
 
     #for track in tracks:
