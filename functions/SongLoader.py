@@ -30,18 +30,18 @@ class SongLoader:
             print("no cache file found. loading song data from spotify")
 
             categories = ['US']
-            categories += self.sp.categories(country="US", limit=50)['categories']['items']
+            categories += self.sp.categories(country="US", limit=1)['categories']['items']
             categories += ['CA']
-            categories += self.sp.categories(country="CA", limit=50)['categories']['items']
+            #categories += self.sp.categories(country="CA", limit=50)['categories']['items']
             categories += ['GB']
-            categories += self.sp.categories(country="GB", limit=50)['categories']['items']
+            #categories += self.sp.categories(country="GB", limit=50)['categories']['items']
             categories += ['FR']
-            categories += self.sp.categories(country="FR", limit=50)['categories']['items']
+            #categories += self.sp.categories(country="FR", limit=50)['categories']['items']
             categories += ['BR']
-            categories += self.sp.categories(country="BR", limit=50)['categories']['items']
+            #categories += self.sp.categories(country="BR", limit=50)['categories']['items']
             categories += ['MX']
-            categories += self.sp.categories(country="MX", limit=50)['categories']['items']
-            print("found {} categories across 6 countries".format(len(categories)))
+            #categories += self.sp.categories(country="MX", limit=50)['categories']['items']
+            print("found {} categories across 1 countries".format(len(categories)-6))
 
             print("gathering playlists from categories")
             playlists = []
@@ -54,13 +54,14 @@ class SongLoader:
                     if i['id'] == 'regionalmexican':
                         continue
                     try:
-                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=50)
+                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=1) #change this limit to 50
                     except:
                         continue
                     if new_playlists is not None:
                         playlists += new_playlists['playlists']['items']
 
             print("gathered {} playlists across all categories".format(len(playlists)))
+
 
             tracks = []
             print("gathering tracks from playlists")
@@ -69,7 +70,24 @@ class SongLoader:
                     track_objects = self.sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
                     if track_objects is not None:
                         for track in track_objects:
-                            tracks.append(track['track'])
+                            if track['track'] is None:
+                                continue
+                            trackData = track['track']
+                            trackData.pop('album', None)
+                            trackData.pop('available_markets', None)
+                            trackData.pop('disc_number', None)
+                            trackData.pop('external_ids', None)
+                            trackData.pop('preview_url', None)
+                            trackData.pop('track_number', None)
+                            trackData.pop('episode', None)
+                            trackData.pop('is_local', None)
+                            trackData.pop('duration_ms', None)
+
+                            audioFeatures = self.sp.audio_features([trackData['id']])
+                            trackData['audio_features'] = audioFeatures
+
+                            tracks.append(trackData)
+
 
             print("gathered {} tracks across all playlists".format(len(tracks)))
 
