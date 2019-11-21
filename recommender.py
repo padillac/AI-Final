@@ -18,12 +18,15 @@ def main():
     loader = SongLoader()
     tracks = loader.loadSongs()
     t2 = time.time()
-    print("----Tracks loaded. {}".format(t2-t1))
+    print("----Tracks loaded. {} seconds".format(t2-t1))
 
 
-    for track in tracks:
-        print(track)
-        time.sleep(2)
+
+    print(tracks[0])
+
+    #for track in tracks:
+        #if track is not None:
+            #print("{}, {}".format(track['name'], track['artists'][0]['name']))
 
 
 
