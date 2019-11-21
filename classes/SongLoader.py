@@ -23,7 +23,7 @@ class SongLoader:
 
     def loadSongs(self):
         if os.path.isfile(self.SONG_DATA_CACHE_FILE):
-            print("cache file exists. loading song data from:", self.SONG_DATA_CACHE_FILE)
+            print("song cache file exists. loading song data from:", self.SONG_DATA_CACHE_FILE)
             with open(self.SONG_DATA_CACHE_FILE, 'rb') as songDataFile:
                 tracks = pickle.load(songDataFile)
         else:
