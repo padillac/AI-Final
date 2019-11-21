@@ -1,13 +1,13 @@
 import sys
 import time
+from tqdm import tqdm #progress bars
 
 #Allow local files to be imported
 sys.path.insert(1, 'helpers/')
 sys.path.insert(1, 'classes/')
 
 from SongLoader import SongLoader #code that generates list of all tracks
-from tqdm import tqdm #progress bars
-
+from NeuralNet import NeuralNet #object that generates recommendations
 
 
 
