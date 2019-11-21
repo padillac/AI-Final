@@ -14,10 +14,11 @@ class SongLoader:
     SPOTIFY_CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
     SPOTIFY_CLIENT_SECRET='759a026c098f40b98583e7c45013ca80'
     SONG_DATA_CACHE_FILE = 'song-data-cache'
+    sp = None
 
     def __init__(self):
         client_credentials_manager = SpotifyClientCredentials(self.SPOTIFY_CLIENT_ID, self.SPOTIFY_CLIENT_SECRET)
-        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+        self.sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
     def loadSongs(self):
@@ -29,17 +30,17 @@ class SongLoader:
             print("no cache file found. loading song data from spotify")
 
             categories = ['US']
-            categories += sp.categories(country="US", limit=50)['categories']['items']
+            categories += self.sp.categories(country="US", limit=50)['categories']['items']
             categories += ['CA']
-            categories += sp.categories(country="CA", limit=50)['categories']['items']
+            categories += self.sp.categories(country="CA", limit=50)['categories']['items']
             categories += ['GB']
-            categories += sp.categories(country="GB", limit=50)['categories']['items']
+            categories += self.sp.categories(country="GB", limit=50)['categories']['items']
             categories += ['FR']
-            categories += sp.categories(country="FR", limit=50)['categories']['items']
+            categories += self.sp.categories(country="FR", limit=50)['categories']['items']
             categories += ['BR']
-            categories += sp.categories(country="BR", limit=50)['categories']['items']
+            categories += self.sp.categories(country="BR", limit=50)['categories']['items']
             categories += ['MX']
-            categories += sp.categories(country="MX", limit=50)['categories']['items']
+            categories += self.sp.categories(country="MX", limit=50)['categories']['items']
             print("found {} categories across 6 countries".format(len(categories)))
 
             print("gathering playlists from categories")
@@ -50,7 +51,7 @@ class SongLoader:
                         countrycode = i
                         continue
                     #print(i['id'])
-                    new_playlists = sp.category_playlists(i['id'], country=countrycode, limit=50)
+                    new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=50)
                     if new_playlists is not None:
                         playlists += new_playlists['playlists']['items']
 
@@ -60,7 +61,7 @@ class SongLoader:
             print("gathering tracks from playlists")
             with HiddenPrints():
                 for playlist in tqdm(playlists):
-                    tracks += sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
+                    tracks += self.sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
 
 
             print("gathered {} tracks across all playlists".format(len(tracks)))
