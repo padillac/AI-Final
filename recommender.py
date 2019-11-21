@@ -1,14 +1,27 @@
 import sys
-import os.path
-import spotipy #library to interact with spotify API
-from spotipy.oauth2 import SpotifyClientCredentials #allows authorization to spotify API
-import pickle #storing objects in files
-from tqdm import tqdm #progress bars
 
 #Allow local files to be imported
 sys.path.insert(1, 'helpers/')
-from HiddenPrints import HiddenPrints #stifle built-in print statements
+sys.path.insert(1, 'functions/')
 
+from SongLoader import SongLoader #code that generates list of all tracks
+from tqdm import tqdm #progress bars
+
+
+
+
+
+loader = SongLoader()
+tracks = loader.loadSongs()
+print(tracks[0])
+
+
+
+
+
+
+
+print("-------------------DONE-----------------")
 
 #global variables
 SPOTIFY_CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
