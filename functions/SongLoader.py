@@ -50,8 +50,13 @@ class SongLoader:
                     if type(i) == str:
                         countrycode = i
                         continue
-                    #print(i['id'])
-                    new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=50)
+                    #stupid regionalmexican never works
+                    if i['id'] == 'regionalmexican':
+                        continue
+                    try:
+                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=50)
+                    except:
+                        continue
                     if new_playlists is not None:
                         playlists += new_playlists['playlists']['items']
 
@@ -61,8 +66,10 @@ class SongLoader:
             print("gathering tracks from playlists")
             with HiddenPrints():
                 for playlist in tqdm(playlists):
-                    tracks += self.sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
-
+                    track_objects = self.sp.user_playlist_tracks('spotify', playlist_id=playlist['id'])['items']
+                    if track_objects is not None:
+                        for track in track_objects:
+                            tracks.append(track['track'])
 
             print("gathered {} tracks across all playlists".format(len(tracks)))
 
