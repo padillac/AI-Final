@@ -36,6 +36,11 @@ class DataManager:
         self.y_known = np.append(self.y_known, [[preference, 1-preference]], axis=0)
 
 
+
+
+
+
+
     def savePreferencesToFile(self, path):
         with open(path, 'wb') as dataFile:
             pickle.dump((self.x_known, self.y_known), dataFile)
