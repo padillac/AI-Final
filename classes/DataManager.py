@@ -10,7 +10,7 @@ class DataManager:
 
     def __init__(self):
         self.x_known = np.empty((0,13))
-        self.y_known = np.empty((0,1), int)
+        self.y_known = np.empty((0,2), int)
 
 
 
@@ -33,7 +33,7 @@ class DataManager:
             return
         newRowData = self.getTrackNeuralNetArray(trackID)
         self.x_known = np.append(self.x_known, [newRowData], axis=0)
-        self.y_known = np.append(self.y_known, [[preference]], axis=0)
+        self.y_known = np.append(self.y_known, [[preference, 1-preference]], axis=0)
 
 
     def savePreferencesToFile(self, path):
