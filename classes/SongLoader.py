@@ -1,4 +1,10 @@
 import os.path
+import sys
+
+#Allow local files to be imported
+sys.path.insert(1, '../helpers/')
+sys.path.insert(1, 'helpers/')
+
 import spotipy #library to interact with spotify API
 from spotipy.oauth2 import SpotifyClientCredentials #allows authorization to spotify API
 import pickle #storing objects in files
@@ -13,12 +19,13 @@ class SongLoader:
 
     SPOTIFY_CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
     SPOTIFY_CLIENT_SECRET='759a026c098f40b98583e7c45013ca80'
-    SONG_DATA_CACHE_FILE = 'song-data-cache'
+    SONG_DATA_CACHE_FILE = ''
     sp = None
 
-    def __init__(self):
+    def __init__(self, cache_file_path='song-data-cache'):
         client_credentials_manager = SpotifyClientCredentials(self.SPOTIFY_CLIENT_ID, self.SPOTIFY_CLIENT_SECRET)
         self.sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+        self.SONG_DATA_CACHE_FILE = cache_file_path
 
 
     def loadSongs(self):
@@ -30,7 +37,7 @@ class SongLoader:
             print("no cache file found. loading song data from spotify")
 
             categories = ['US']
-            categories += self.sp.categories(country="US", limit=5)['categories']['items']
+            categories += self.sp.categories(country="US", limit=50)['categories']['items']
             categories += ['CA']
             #categories += self.sp.categories(country="CA", limit=50)['categories']['items']
             categories += ['GB']
@@ -54,7 +61,7 @@ class SongLoader:
                     if i['id'] == 'regionalmexican':
                         continue
                     try:
-                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=20) #change this limit to 50
+                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=50)
                     except:
                         continue
                     if new_playlists is not None:
@@ -99,3 +106,23 @@ class SongLoader:
         print("song data successfully loaded, {} total tracks".format(len(tracks)))
 
         return tracks
+
+
+
+
+
+
+
+
+
+def main():
+    loader = SongLoader('large-song-data-cache')
+    loader.loadSongs()
+    print ("DONE")
+
+
+
+
+
+if __name__ == '__main__':
+    main()
