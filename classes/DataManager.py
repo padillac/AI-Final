@@ -6,6 +6,7 @@ import pickle #storing objects in files
 class DataManager:
     x_known = None
     y_known = None
+    known_ids = []
     trackData = {}
 
     def __init__(self):
@@ -34,9 +35,18 @@ class DataManager:
         newRowData = self.getTrackNeuralNetArray(trackID)
         self.x_known = np.append(self.x_known, [newRowData], axis=0)
         self.y_known = np.append(self.y_known, [[preference, 1-preference]], axis=0)
+        self.known_ids.append(trackID)
 
 
+    def getUnknownSongData(self):
+        unknownSongData = np.empty((0,13))
+        for t in self.getTrackIterator():
+            if t['id'] in self.known_ids:
+                continue
+            nnd = self.getTrackNeuralNetArray(t['id'])
+            unknownSongData = np.append(unknownSongData, [nnd], axis=0)
 
+        return unknownSongData
 
 
 
