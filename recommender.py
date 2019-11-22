@@ -16,6 +16,17 @@ from DataManager import DataManager #object that manages Spotify and NeuralNet d
 
 
 
+def getBestPredictedSong(nn, dm):
+    unknownSongData = dm.getUnknownSongData()
+    print("unknownSongData")
+    print(unknownSongData)
+    predictions = nn.predictPreferences(unknownSongData)
+    print("PREDICTIONS:-----")
+    print(predictions)
+    print("max prediction:")
+    print(predictions.indexOf(max(predictions)))
+
+
 
 
 def main():
@@ -41,6 +52,8 @@ def main():
         for t in dm.getTrackIterator():
             print("{}, {} -- Listen: {}".format(t['name'], t['artists'][0]['name'], t['external_urls']['spotify']))
             designation = input("Like? 1 or 0 (q to stop deciding): ")
+            if designation == '':
+                continue
             if designation == 'q':
                 break
             if int(designation) == 1:
@@ -53,14 +66,24 @@ def main():
         dm.savePreferencesToFile('preference-data-cache')
 
 
+
     print("----------TRAINING NEURAL NET-----------")
 
     nn = NeuralNet()
     nn.buildModel()
+    #nn.plotModel()
+    #nn.displayModel()
     nn.trainModel(dm.x_known, dm.y_known)
 
 
+    print("-------------NEURAL NET RECOMMENDATIONS-----------")
 
+
+    #for t in dm.getTrackIterator():
+    #    print("{}, {} --".format(t['name'], t['artists'][0]['name']))
+    #    nn.predictPreferences(dm.getTrackNeuralNetArray(t['id']))
+
+    getBestPredictedSong(nn, dm)
 
 
 
