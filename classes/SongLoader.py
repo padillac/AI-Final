@@ -91,6 +91,8 @@ class SongLoader:
                             trackData.pop('duration_ms', None)
 
                             audioFeatures = self.sp.audio_features([trackData['id']])[0]
+                            if audioFeatures is None:
+                                continue
                             trackData['audio_features'] = audioFeatures
 
                             tracks.append(trackData)
