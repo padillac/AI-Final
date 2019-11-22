@@ -1,5 +1,7 @@
 import numpy as np
 import pickle #storing objects in files
+import random #allows generation of track iterators in random order
+from tqdm import tqdm #progress bars
 
 # This class manages all song data and provides a simple API for updating training sets,
 # and prepping data for neural net predictions
@@ -21,11 +23,15 @@ class DataManager:
             self.trackData[t['id']] = t
 
     def getTrackIterator(self):
-        return self.trackData.values()
+        items = list(self.trackData.items())
+        random.shuffle(items)
+        return items
 
 
     def getTrackNeuralNetArray(self, trackID):
         af = self.trackData[trackID]['audio_features']
+        if af is None:
+            return [0,0,0,0,0,0,0,0,0,0,0,0,0]
         return np.array([af['danceability'], af['energy'], af['key'], af['loudness'], af['mode'], af['speechiness'], af['acousticness'], af['instrumentalness'], af['liveness'], af['valence'], af['tempo'], af['duration_ms'], af['time_signature']])
 
 
@@ -40,13 +46,27 @@ class DataManager:
 
     def getUnknownSongData(self):
         unknownSongData = np.empty((0,13))
-        for t in self.getTrackIterator():
+        print("compiling unknown song data into numpy array")
+        for id, t in tqdm(self.getTrackIterator()):
             if t['id'] in self.known_ids:
                 continue
-            nnd = self.getTrackNeuralNetArray(t['id'])
+            nnd = self.getTrackNeuralNetArray(id)
             unknownSongData = np.append(unknownSongData, [nnd], axis=0)
 
         return unknownSongData
+
+
+
+
+
+
+    def generateRandomPreferences(self, n=500):
+        count = 0
+        for id, t in self.getTrackIterator():
+            self.updateKnownData(id, random.randint(0,1))
+            count += 1
+            if count == n:
+                return
 
 
 
