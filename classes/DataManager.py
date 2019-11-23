@@ -28,6 +28,9 @@ class DataManager:
         return items
 
 
+    def getTrackData(self, trackID):
+        return self.trackData[trackID]
+
     def getTrackNeuralNetArray(self, trackID):
         af = self.trackData[trackID]['audio_features']
         if af is None:
@@ -51,14 +54,16 @@ class DataManager:
 
     def getUnknownSongData(self):
         unknownSongData = np.empty((0,13))
+        indexTranslator = {}
         print("compiling unknown song data into numpy array")
         for id, t in tqdm(self.getTrackIterator()):
             if t['id'] in self.known_ids:
                 continue
             nnd = self.getTrackNeuralNetArray(id)
             unknownSongData = np.append(unknownSongData, [nnd], axis=0)
+            indexTranslator[len(unknownSongData)-1] = id
 
-        return unknownSongData
+        return unknownSongData, indexTranslator
 
 
 
