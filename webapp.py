@@ -1,9 +1,6 @@
-from flask import Flask #allow webapp capabilities
+import os
 
+os.environ['FLASK_APP'] = 'recommender.py'
+os.environ['FLASK_ENV'] = 'development'
 
-app = Flask(__name__)
-
-
-@app.route("/")
-def hello():
-    return "Hello World!"
+os.system("flask run")
