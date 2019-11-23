@@ -32,7 +32,12 @@ class DataManager:
         af = self.trackData[trackID]['audio_features']
         if af is None:
             return [0,0,0,0,0,0,0,0,0,0,0,0,0]
-        return np.array([af['danceability'], af['energy'], af['key'], af['loudness'], af['mode'], af['speechiness'], af['acousticness'], af['instrumentalness'], af['liveness'], af['valence'], af['tempo'], af['duration_ms'], af['time_signature']])
+        key = (af['key'])/(11)
+        loudness = (af['loudness'] + 60)/(60)
+        tempo = (af['tempo'])/(250)
+        time_signature = (af['time_signature'])/(8)
+        duration_ms = (af['duration_ms']-20000)/(340000)
+        return np.array([af['danceability'], af['energy'], key, loudness, af['mode'], af['speechiness'], af['acousticness'], af['instrumentalness'], af['liveness'], af['valence'], tempo, duration_ms, time_signature])
 
 
     def updateKnownData(self, trackID, preference):
