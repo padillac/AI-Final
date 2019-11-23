@@ -55,7 +55,6 @@ class DataManager:
     def getUnknownSongData(self):
         unknownSongData = np.empty((0,13))
         indexTranslator = {}
-        print("compiling unknown song data into numpy array")
         for id, t in tqdm(self.getTrackIterator()):
             if t['id'] in self.known_ids:
                 continue
@@ -77,7 +76,6 @@ class DataManager:
             count += 1
             if count == n:
                 return
-
 
 
 
