@@ -12,57 +12,12 @@ import numpy as np
 sys.path.insert(1, 'helpers/')
 sys.path.insert(1, 'classes/')
 
+from Functions import * #get functions for command line interface
 from SongLoader import SongLoader #code that generates list of all tracks
 from NeuralNet import NeuralNet #object that generates recommendations
 from DataManager import DataManager #object that manages Spotify and NeuralNet data
 from HiddenPrints import HiddenPrints #stifle built-in print statements
 #import FlaskFunctions as ff #functions that generate flask pages
-
-
-
-
-
-
-def getTopSongs(nn, dm):
-    print("getting data on new songs from local database")
-    unknownSongData, indexTranslator = dm.getUnknownSongData()
-    if len(unknownSongData) == 0:
-        return False
-    print("using neural net to find personalized matches")
-    predictions = nn.predictPreferences(unknownSongData)
-    sortedPredictions = predictions[predictions[:,0].argsort()[::-1]]
-    recs = []
-    print("collecting data on top 100 matches")
-    for i in trange(100):
-        index = np.where(predictions == sortedPredictions[i])[0][0]
-        trackID = indexTranslator[index]
-        trackData = dm.getTrackData(trackID)
-        trackData['percent_match'] = round(sortedPredictions[i][0]*100, 1)
-        recs.append(trackData)
-    return recs
-
-
-
-
-def initializeDataManager():
-    dm = DataManager()
-
-    t1 = time.time()
-    loader = SongLoader()
-    dm.loadTrackData(loader.loadSongs())
-    t2 = time.time()
-    print("---- {} tracks loaded. {} hours, {} minutes and {} seconds".format(len(dm.trackData), math.floor((t2-t1)/3600), math.floor((t2-t1)/60), round((t2-t1)%60, 4)))
-
-    return dm
-
-
-
-def saveAndQuit(dm, path):
-    print("saving preferences to file.")
-    dm.savePreferencesToFile(path)
-    print("exiting")
-    exit()
-
 
 
 
@@ -123,6 +78,9 @@ def main():
             if i.strip() == "exit":
                 exit()
             elif i.strip() == "train":
+                if len(dm.y_known) == 0:
+                    print("\nYou must like or dislike at least one song.")
+                    continue
                 print("\nbuilding the neural net and training with your new preferences")
                 break
             elif i.strip() == "size":
@@ -140,12 +98,14 @@ def main():
 
 
     print("----------BUILDING NEURAL NET-----------")
+    print("----IGNORE KERAS/TENSORFLOW ERRORS THAT DISPLAY ON THE FIRST BUILD----")
 
     nn = NeuralNet()
     nn.buildModel()
     #nn.plotModel()
     #nn.displayModel()
     if VERBOSE:
+        print("training neural net")
         nn.trainModel(dm.x_known, dm.y_known)
     else:
         with HiddenPrints():
@@ -153,7 +113,7 @@ def main():
 
 
 
-    print("-------------NEURAL NET RECOMMENDATIONS-----------")
+    print("--------------DONE-------------")
 
 
 
@@ -163,7 +123,7 @@ def main():
     recs = getTopSongs(nn, dm)
 
     print("\n\nYou are now in radio mode!\n------------------\nListen to songs the neural net has picked for you, and tell it if you liked them!")
-    print("Enter '1' to like, '0' to dislike, 'train' to retrain the neural net with your new preferences, and 'exit' to save your preferences to file and quit")
+    print("Enter '1' to like, '0' to dislike, 'size' to check how many songs you've classified, 'train' to retrain the neural net with your new preferences, and 'exit' to save your preferences to file and quit")
 
     while not outOfSongs:
         t = recs[songIndex]
@@ -172,7 +132,7 @@ def main():
         if i.strip() == "exit":
             saveAndQuit(dm, PREFERENCE_DATA_PATH)
         elif i.strip() == "train":
-            print("training the neural net on your new preferences")
+            print("\ntraining the neural net on your new preferences")
             if VERBOSE:
                 nn.trainModel(dm.x_known, dm.y_known)
             else:
@@ -184,7 +144,7 @@ def main():
                 outOfSongs = True
                 continue
         elif i.strip() == "size":
-            print("You have classified {} songs.".format(len(dm.y_known)))
+            print("\nYou have classified {} songs.".format(len(dm.y_known)))
         elif i.strip() == "1":
             dm.updateKnownData(t['id'], 1)
             songIndex += 1
@@ -192,9 +152,9 @@ def main():
             dm.updateKnownData(t['id'], 0)
             songIndex += 1
         else:
-            print("invalid input, please try again")
+            print("\ninvalid input, please try again")
 
-    print("You have categorized every song in the local database! To get more songs, add more countries or increase the parameters in SongLoader, change the name of the song-data-cache file (or delete it) and restart the program. Your preferences will be saved now.")
+    print("\n\nYou have somehow categorized every song in the local database! (if you created random preferences, maybe the number was too big)\nTo get more songs, add more countries or increase the parameters in SongLoader, change the name of the song-data-cache file (or delete it) and restart the program. Your preferences will be saved now.")
     saveAndQuit(dm, PREFERENCE_DATA_PATH)
 
 
