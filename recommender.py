@@ -97,8 +97,9 @@ def main():
 
 
 
-    print("----------BUILDING NEURAL NET-----------")
+    print("\n\n-------------BUILDING NEURAL NET--------------")
     print("----IGNORE KERAS/TENSORFLOW ERRORS THAT DISPLAY ON THE FIRST BUILD----")
+    time.sleep(.5)
 
     nn = NeuralNet()
     nn.buildModel()
