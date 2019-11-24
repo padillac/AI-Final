@@ -121,6 +121,8 @@ def main():
     outOfSongs = False
     songIndex = 0
     recs = getTopSongs(nn, dm)
+    if not recs:
+        outOfSongs = True
 
     print("\n\nYou are now in radio mode!\n------------------\nListen to songs the neural net has picked for you, and tell it if you liked them!")
     print("Enter '1' to like, '0' to dislike, 'size' to check how many songs you've classified, 'train' to retrain the neural net with your new preferences, and 'exit' to save your preferences to file and quit")
