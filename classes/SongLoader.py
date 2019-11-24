@@ -22,7 +22,7 @@ class SongLoader:
     SONG_DATA_CACHE_FILE = ''
     sp = None
 
-    def __init__(self, cache_file_path='song-data-cache'):
+    def __init__(self, cache_file_path='SONG_DATA'):
         client_credentials_manager = SpotifyClientCredentials(self.SPOTIFY_CLIENT_ID, self.SPOTIFY_CLIENT_SECRET)
         self.sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
         self.SONG_DATA_CACHE_FILE = cache_file_path
