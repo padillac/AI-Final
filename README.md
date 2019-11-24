@@ -14,7 +14,7 @@ You also have the ability to name and save your preferences files, and choose on
 1. Clone the repository
 
 ```bash
-git clone https://github.com/padillac/AI-Final.git
+git clone https://github.com/padillac/Spotify-Song-Recommender.git
 ```
 
 2. Run setup.py to install all dependencies via pip
