@@ -13,8 +13,8 @@ from HiddenPrints import HiddenPrints #stifle built-in print statements
 
 
 
-# Object that loads songs either from cached file or from Spotify API.
 
+# Object that loads songs either from cached file or from Spotify API.
 class SongLoader:
 
     SPOTIFY_CLIENT_ID='d74eabfa835d4c2a9b2b58b786b6d5ee'
@@ -37,7 +37,7 @@ class SongLoader:
             print("no cache file found. loading song data from spotify")
 
             categories = ['US']
-            categories += self.sp.categories(country="US", limit=50)['categories']['items']
+            categories += self.sp.categories(country="US", limit=5)['categories']['items']
             categories += ['CA']
             #categories += self.sp.categories(country="CA", limit=50)['categories']['items']
             categories += ['GB']
@@ -61,7 +61,7 @@ class SongLoader:
                     if i['id'] == 'regionalmexican':
                         continue
                     try:
-                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=50)
+                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=25)
                     except:
                         continue
                     if new_playlists is not None:
