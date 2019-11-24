@@ -112,8 +112,6 @@ def main():
         with HiddenPrints():
             nn.trainModel(dm.x_known, dm.y_known)
 
-
-
     print("--------------DONE-------------")
 
 
