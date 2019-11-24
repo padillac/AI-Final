@@ -3,8 +3,9 @@ import pickle #storing objects in files
 import random #allows generation of track iterators in random order
 from tqdm import tqdm #progress bars
 
-# This class manages all song data and provides a simple API for updating training sets,
-# and prepping data for neural net predictions
+
+
+# This class manages all song data and provides a simple API for updating training sets, and prepping data for neural net predictions
 class DataManager:
     x_known = None
     y_known = None
