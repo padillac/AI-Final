@@ -1,3 +1,4 @@
-*-cache
+*.p
+SONG_DATA
 __pycache__
 *.png
