@@ -8,6 +8,8 @@ with HiddenErrors():
 
 
 
+
+#This class creates and manages the Keras neural network that is trained to recommend songs based on preferences
 class NeuralNet:
 
     model = None
