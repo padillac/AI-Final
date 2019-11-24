@@ -1,14 +1,15 @@
 import os.path
 import sys
+from tqdm import tqdm #progress bars
+import spotipy #library to interact with spotify API
+from spotipy.oauth2 import SpotifyClientCredentials #allows authorization to spotify API
+import pickle #storing objects in files
+
 
 #Allow local files to be imported
 sys.path.insert(1, '../helpers/')
 sys.path.insert(1, 'helpers/')
 
-import spotipy #library to interact with spotify API
-from spotipy.oauth2 import SpotifyClientCredentials #allows authorization to spotify API
-import pickle #storing objects in files
-from tqdm import tqdm #progress bars
 from HiddenPrints import HiddenPrints #stifle built-in print statements
 
 
