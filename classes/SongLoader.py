@@ -62,7 +62,7 @@ class SongLoader:
                     if i['id'] == 'regionalmexican':
                         continue
                     try:
-                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=20)
+                        new_playlists = self.sp.category_playlists(i['id'], country=countrycode, limit=10)
                     except:
                         continue
                     if new_playlists is not None:
