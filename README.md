@@ -10,11 +10,13 @@ You also have the ability to name and save your preferences files, and choose on
 ## Installation:
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/padillac/AI-Final.git
 ```
 
 2. Run setup.py to install all dependencies via pip
+
 ```bash
 python3 setup.py
 ```
@@ -28,6 +30,7 @@ python3 setup.py
 ```bash
 python3 recommender.py -p newpreferences.p
 ```
+
  (Replace newpreferences.p with the name of an existing .p file to load those preferences and train the neural net on them immediately)
 
  2. Run the program with random preferences to get started with a larger dataset and see what happens!
@@ -35,6 +38,7 @@ python3 recommender.py -p newpreferences.p
  ```bash
 python3 recommender.py -p random.p -r 500 -v
  ```
+
  (change 500 to the number of random data points you want to create. -v option enables verbose mode)
 
 
