@@ -40,7 +40,7 @@ def main():
         sys.exit(2)
     for currentArgument, currentValue in arguments:
         if currentArgument in ("-h", "--help"):
-            print ("usage:\n\tpython3 recommender.py -p | --preference_file file_path [-h|--help] [-v|--verbose] [-r|--random n]\n\nOptions:\n\t-p | --preference_file\tPath to preference data file. if one exists, it will be loaded and used to train the neural net. If it does not exist, it will be created to save your preference data.\n\t-h | --help\tDisplay this text\n\t-v | --verbose\tDisplay verbose neural net training information\n\t-r | --random n\tGenerate random training data of size n. If training data file exists this will be ignored. Usually results in recommendations for audiobooks or white noise.")
+            print ("usage:\n\tpython3 recommender.py -p | --preference_file file_path.p [-h|--help] [-v|--verbose] [-r|--random n]\n\nOptions:\n\t-p | --preference_file\tPath to preference data file. if one exists, it will be loaded and used to train the neural net. If it does not exist, it will be created to save your preference data.\n\t-h | --help\tDisplay this text\n\t-v | --verbose\tDisplay verbose neural net training information\n\t-r | --random n\tGenerate random training data of size n. If training data file exists this will be ignored. Usually results in recommendations for audiobooks or white noise.")
             exit()
         elif currentArgument in ("-v", "--verbose"):
             print("enabling verbose mode")
