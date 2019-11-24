@@ -1,6 +1,6 @@
 # Spotify Song Recommender
 
-*\* *\* *Currently the web app is a work in progress. Please ignore webapp.py and helpers/FlaskFunctions.py*
+*\* *Currently the web app is a work in progress. Please ignore webapp.py and helpers/FlaskFunctions.py*
 
 This program allows you to create your own personalized radio stations based on your preferences. It uses the spotify API to gather metadata and audio data on large amounts of songs, and uses a Keras neural network to find patterns in songs that you classify by either "liking" or "disliking".
 
