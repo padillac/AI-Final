@@ -15,9 +15,9 @@ git clone https://github.com/padillac/AI-Final.git
 ```
 
 2. Run setup.py to install all dependencies via pip
-'''bash
+```bash
 python3 setup.py
-'''
+```
 
 3. If you have any song data files or preference files, move them to the root directory, next to recommender.py. The song data file should be named 'SONG_DATA' and any preference file should be a '.p' file (to work with the gitignore)
 
