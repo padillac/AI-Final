@@ -78,8 +78,8 @@ def main():
             if i.strip() == "exit":
                 exit()
             elif i.strip() == "train":
-                if len(dm.y_known) == 0:
-                    print("\nYou must like or dislike at least one song.")
+                if len(dm.y_known) < 2:
+                    print("\nYou must like or dislike at least two songs.")
                     continue
                 print("\nbuilding the neural net and training with your new preferences")
                 break
@@ -103,7 +103,7 @@ def main():
 
     nn = NeuralNet()
     nn.buildModel()
-    #nn.plotModel()
+    nn.plotModel()
     #nn.displayModel()
     if VERBOSE:
         print("training neural net")
