@@ -72,7 +72,7 @@ class DataManager:
 
     def generateRandomPreferences(self, n=500):
         count = 0
-        for id, t in self.getTrackIterator():
+        for id, t in tqdm(self.getTrackIterator()):
             self.updateKnownData(id, random.randint(0,1))
             count += 1
             if count == n:
