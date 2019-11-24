@@ -156,7 +156,7 @@ def main():
         else:
             print("\ninvalid input, please try again")
 
-    print("\n\nYou have somehow categorized every song in the local database! (if you created random preferences, maybe the number was too big)\nTo get more songs, add more countries or increase the parameters in SongLoader, change the name of the song-data-cache file (or delete it) and restart the program. Your preferences will be saved now.")
+    print("\n\nYou have somehow categorized every song in the local database! (if you created random preferences, maybe the number was too big)\nTo get more songs, add more countries or increase the parameters in SongLoader, then change the name of the SONG_DATA file (or delete it) and restart the program. Your preferences will be saved now.")
     saveAndQuit(dm, PREFERENCE_DATA_PATH)
 
 
