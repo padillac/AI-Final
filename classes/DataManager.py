@@ -82,14 +82,14 @@ class DataManager:
     def savePreferencesToFile(self, path):
         with open(path, 'wb') as dataFile:
             pickle.dump((self.x_known, self.y_known), dataFile)
-        print("saved preference data to file")
+        print("saved preference data to file:", path)
 
     def loadPreferencesFromFile(self, path):
         with open(path, 'rb') as dataFile:
             data = pickle.load(dataFile)
         self.x_known = data[0]
         self.y_known = data[1]
-        print("preference data loaded from file")
+        print("preference data loaded from file:", path)
 
 
 
