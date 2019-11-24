@@ -25,16 +25,16 @@ python3 setup.py
 
 1. Run the program with a new preferences file and it will automatically load Spotify data and help get you started.
 
-'''bash
+```bash
 python3 recommender.py -p newpreferences.p
-'''
+```
  (Replace newpreferences.p with the name of an existing .p file to load those preferences and train the neural net on them immediately)
 
  2. Run the program with random preferences to get started with a larger dataset and see what happens!
 
- '''bash
+ ```bash
 python3 recommender.py -p random.p -r 500 -v
- '''
+ ```
  (change 500 to the number of random data points you want to create. -v option enables verbose mode)
 
 
