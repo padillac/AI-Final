@@ -38,7 +38,7 @@ class NeuralNet:
 
     def trainModel(self, x_train, y_train):
         with HiddenErrors():
-            self.model.fit(x=x_train, y=y_train, batch_size=32, epochs=20, verbose=2, validation_split=0.1, shuffle=True)
+            self.model.fit(x=x_train, y=y_train, batch_size=32, epochs=30, verbose=2, validation_split=0.1, shuffle=True)
 
 
     def predictPreferences(self, x_data):
