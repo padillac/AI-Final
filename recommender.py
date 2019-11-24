@@ -103,7 +103,7 @@ def main():
 
     nn = NeuralNet()
     nn.buildModel()
-    nn.plotModel()
+    #nn.plotModel()
     #nn.displayModel()
     if VERBOSE:
         print("training neural net")
